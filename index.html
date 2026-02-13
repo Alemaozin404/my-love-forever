@@ -3,200 +3,340 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nosso Amor Eterno</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Para Minha Princesa - Eternamente</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&family=Playfair+Display:italic,wght@700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    
     <style>
         :root {
             --primary-pink: #ff4d6d;
             --soft-pink: #ffccd5;
             --dark-red: #c9184a;
             --white: #ffffff;
-            --bg-gradient: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
+            --glass: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.4);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: var(--bg-gradient);
+            background: linear-gradient(45deg, #fb607f, #ffccd5, #fff0f3);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             color: #590d22;
             overflow-x: hidden;
-            text-align: center;
             min-height: 100vh;
         }
 
-        /* PAINEL DE CONTROLE */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* FUNDO DE PARTÍCULAS */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        /* PAINEL DE CONTROLE MODERNO */
         #admin-panel {
             position: fixed;
-            left: -300px;
+            left: -320px;
             top: 0;
-            width: 280px;
+            width: 300px;
             height: 100%;
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             z-index: 1000;
-            box-shadow: 5px 0 15px rgba(0,0,0,0.1);
-            transition: 0.4s;
-            padding: 20px;
-            text-align: left;
+            box-shadow: 10px 0 30px rgba(0,0,0,0.1);
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 30px;
         }
 
         #admin-panel.active { left: 0; }
 
         .toggle-admin {
             position: fixed;
-            left: 20px;
-            bottom: 20px;
-            background: var(--primary-pink);
+            left: 25px;
+            bottom: 25px;
+            background: var(--dark-red);
             color: white;
             border: none;
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             cursor: pointer;
             z-index: 1001;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 20px rgba(201, 24, 74, 0.4);
+            font-size: 1.5rem;
+            transition: 0.3s;
         }
 
-        .admin-section { margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .toggle-admin:hover { transform: scale(1.1) rotate(90deg); }
 
-        .btn-upload {
-            display: block;
-            background: var(--soft-pink);
-            padding: 10px;
+        /* HEADER E CONTAGEM */
+        header { 
+            position: relative;
+            z-index: 1;
+            padding: 100px 20px 40px; 
             text-align: center;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-top: 5px;
         }
 
-        /* CONTEÚDO */
-        header { padding: 60px 20px 20px; }
-        h1 { font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: var(--dark-red); }
-
-        .counter-container {
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(5px);
-            padding: 15px 30px;
-            border-radius: 50px;
-            display: inline-block;
-            margin: 20px 0;
+        h1 { 
+            font-family: 'Dancing Script', cursive; 
+            font-size: clamp(2.5rem, 8vw, 5rem); 
+            color: var(--dark-red);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
         }
 
-        .main-content { max-width: 1000px; margin: 0 auto; padding: 20px; }
-
-        .card-love {
-            background: white;
-            padding: 40px;
-            border-radius: 30px;
-            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.1);
-            margin-bottom: 40px;
+        .counter-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+            z-index: 2;
         }
 
-        /* GALERIA */
+        .counter-item {
+            background: var(--glass);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--glass-border);
+            padding: 15px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.05);
+        }
+
+        .counter-number { display: block; font-size: 1.5rem; font-weight: 700; color: var(--dark-red); }
+        .counter-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* MENSAGEM PRINCIPAL */
+        .main-content { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+
+        .love-letter {
+            background: var(--white);
+            padding: 60px 40px;
+            border-radius: 40px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+            margin-bottom: 60px;
+            position: relative;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .love-letter::after {
+            content: '❤️';
+            position: absolute;
+            bottom: -25px;
+            right: 50px;
+            font-size: 3rem;
+        }
+
+        .letter-title {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            color: var(--dark-red);
+        }
+
+        /* GALERIA POLAROID */
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 35px;
         }
 
         .media-item {
             background: white;
-            padding: 12px;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            transition: 0.3s;
+            padding: 15px 15px 45px 15px;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
         }
+
+        .media-item:hover { transform: scale(1.05) translateY(-10px) rotate(1deg); }
 
         .media-item img, .media-item video {
             width: 100%;
-            height: 250px;
+            height: 300px;
             object-fit: cover;
-            border-radius: 8px;
+            border: 1px solid #eee;
         }
 
-        .music-player { position: fixed; right: 20px; bottom: 20px; z-index: 100; }
-        input[type="file"] { display: none; }
-        
-        #upload-status { font-size: 0.8rem; color: var(--primary-pink); display: none; margin-top: 10px; }
+        .media-item::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(2px);
+        }
 
-        @keyframes floatUp { to { opacity: 0; transform: translateY(-80px) scale(1.5); } }
+        /* PLAYER DE MÚSICA */
+        .music-card {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            background: var(--white);
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        /* AUXILIARES */
+        .btn-upload {
+            display: block;
+            background: var(--primary-pink);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+        .btn-upload:hover { background: var(--dark-red); }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100px) scale(2); opacity: 0; }
+        }
     </style>
 </head>
 <body>
 
+    <div id="particles-js"></div>
+
     <button class="toggle-admin" onclick="toggleAdmin()">⚙️</button>
 
     <div id="admin-panel">
-        <h3>Configurações (Nuvem)</h3>
-        <div class="admin-section">
-            <h4>📸 Adicionar Foto/Vídeo</h4>
-            <label for="file-input" class="btn-upload">Enviar para ela ver</label>
+        <h2 style="font-family: 'Playfair Display'; margin-bottom: 20px;">Nossas Configurações</h2>
+        <div style="margin-bottom: 30px;">
+            <p style="font-size: 0.8rem; margin-bottom: 10px; font-weight: 600;">Adicionar à Nuvem:</p>
+            <label for="file-input" class="btn-upload">Upload de Memória</label>
             <input type="file" id="file-input" accept="image/*,video/*">
-            <div id="upload-status">Subindo para a nuvem... ☁️</div>
+            <div id="upload-status" style="display:none; color: var(--primary-pink); font-size: 0.8rem; margin-top: 10px;">Conectando ao Firebase... ☁️</div>
         </div>
-        <div class="admin-section">
-            <h4>🎵 Música</h4>
-            <label for="music-input" class="btn-upload">Escolher MP3</label>
+        
+        <div style="margin-bottom: 30px;">
+            <p style="font-size: 0.8rem; margin-bottom: 10px; font-weight: 600;">Trilha Sonora:</p>
+            <label for="music-input" class="btn-upload" style="background: #666;">Trocar Música</label>
             <input type="file" id="music-input" accept="audio/*">
         </div>
-        <p style="font-size: 0.6rem; color: #999;">Os arquivos agora são compartilhados via Firebase.</p>
     </div>
 
-    <header>
-        <h1>Feliz dia dos Namorados minha princesa</h1>
-        <div class="counter-container"><div id="timer">Contando...</div></div>
+    <header data-aos="fade-down">
+        <h1>Feliz dia dos Namorados, princesa</h1>
+        <div class="counter-grid">
+            <div class="counter-item">
+                <span class="counter-number" id="d-days">00</span>
+                <span class="counter-label">Dias</span>
+            </div>
+            <div class="counter-item">
+                <span class="counter-number" id="d-hours">00</span>
+                <span class="counter-label">Horas</span>
+            </div>
+            <div class="counter-item">
+                <span class="counter-number" id="d-mins">00</span>
+                <span class="counter-label">Min</span>
+            </div>
+            <div class="counter-item">
+                <span class="counter-number" id="d-secs">00</span>
+                <span class="counter-label">Seg</span>
+            </div>
+        </div>
     </header>
 
     <div class="main-content">
-        <section class="card-love">
-            <h2 style="font-family: 'Dancing Script';">Para o Meu Amor</h2>
-            <p>"Eu Te Amo, uma palavra dita como demonstração de carinho e afeto a quem amamos, mas para mim dizer Eu Te Amo a voce é tudo pra mim, dizer Eu Te Amo é dizer que nunca vou abandonar voce e sempre estarei ao seu lado nao importa a dificuldade, Eu Te Amo mais que tudo nesse mundo, amar voce é so nao tudo que queria mas é tudo que eu precisava, você trouxe a minha vida felicidade voce trouxe armonia e paixão, obrigado por tudo amor, você e sempre sera minha princesa eu te mo eternamente. Feliz dia dos namorados!"</p>
+        <section class="love-letter" data-aos="zoom-in">
+            <h2 class="letter-title">Para o Meu Único Amor</h2>
+            <p>
+                "Eu Te Amo, uma palavra dita como demonstração de carinho e afeto a quem amamos, mas para mim dizer <strong>Eu Te Amo</strong> a você é tudo pra mim. Dizer Eu Te Amo é dizer que nunca vou abandonar você e sempre estarei ao seu lado não importa a dificuldade. Eu Te Amo mais que tudo nesse mundo! 
+                <br><br>
+                Amar você não é só tudo que eu queria, mas é tudo que eu precisava. Você trouxe à minha vida felicidade, harmonia e paixão. Obrigado por tudo, meu amor. Você é e sempre será minha princesa, eu te amo eternamente. Feliz dia dos namorados!"
+            </p>
         </section>
 
-        <div class="gallery" id="media-gallery"></div>
+        <h2 style="margin-bottom: 40px; font-family: 'Playfair Display'; font-size: 2rem;" data-aos="fade-up">Nossa Galeria Infinita</h2>
+        <div class="gallery" id="media-gallery">
+            </div>
     </div>
 
-    <div class="music-player" id="player-container" style="display: none;">
-        <audio id="audio-player" controls loop></audio>
+    <div class="music-card" id="player-container" style="display: none;">
+        <span style="font-size: 1.2rem;">🎵</span>
+        <audio id="audio-player" controls loop style="height: 30px;"></audio>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
         import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js";
 
-        // CONFIGURAÇÃO DO FIREBASE (Substitua pelos seus dados do console.firebase.google.com)
+        // CONFIGURAÇÃO DO FIREBASE (⚠️ Cole seus dados aqui)
         const firebaseConfig = {
-            apiKey: "COLE_AQUI",
-            authDomain: "COLE_AQUI",
-            projectId: "COLE_AQUI",
-            storageBucket: "COLE_AQUI",
-            messagingSenderId: "COLE_AQUI",
-            appId: "COLE_AQUI"
+            apiKey: "SUA_KEY",
+            authDomain: "SEU_DOMINIO",
+            projectId: "SEU_PROJETO",
+            storageBucket: "SEU_STORAGE",
+            messagingSenderId: "SEU_ID",
+            appId: "SEU_APP_ID"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const storage = getStorage(app);
 
-        // --- DATA DE INÍCIO ---
+        // --- INICIALIZAÇÕES ---
+        AOS.init({ duration: 1000, once: true });
+        
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 15 },
+                "shape": { "type": "heart" },
+                "color": { "value": "#ff4d6d" },
+                "opacity": { "value": 0.3 },
+                "size": { "value": 15 },
+                "move": { "enable": true, "speed": 2, "direction": "top" }
+            }
+        });
+
+        // --- CONTADOR ---
         const startDate = new Date("2025-12-24T00:00:00").getTime();
-        function updateTimer() {
+        setInterval(() => {
             const now = new Date().getTime();
             const diff = now - startDate;
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const secs = Math.floor((diff % (1000 * 60)) / 1000);
-            document.getElementById("timer").innerHTML = `${days}d ${hours}h ${mins}m ${secs}s`;
-        }
-        setInterval(updateTimer, 1000);
+            document.getElementById("d-days").innerText = Math.floor(diff / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+            document.getElementById("d-hours").innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+            document.getElementById("d-mins").innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+            document.getElementById("d-secs").innerText = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
+        }, 1000);
 
-        window.toggleAdmin = () => { document.getElementById('admin-panel').classList.toggle('active'); };
+        window.toggleAdmin = () => document.getElementById('admin-panel').classList.toggle('active');
 
-        // --- UPLOAD FIREBASE ---
+        // --- LÓGICA FIREBASE ---
         const fileInput = document.getElementById('file-input');
         const status = document.getElementById('upload-status');
 
@@ -204,50 +344,42 @@
             const file = e.target.files[0];
             if (!file) return;
             status.style.display = 'block';
-
             try {
-                const storageRef = ref(storage, 'fotos/' + Date.now() + "_" + file.name);
+                const storageRef = ref(storage, 'galeria/' + Date.now() + "_" + file.name);
                 await uploadBytes(storageRef, file);
                 const url = await getDownloadURL(storageRef);
-
-                await addDoc(collection(db, "midias"), {
-                    url: url,
-                    type: file.type.startsWith('image') ? 'img' : 'video',
-                    time: Date.now()
-                });
+                await addDoc(collection(db, "midias"), { url, type: file.type.startsWith('image') ? 'img' : 'video', time: Date.now() });
                 status.style.display = 'none';
+                alert("Memória salva na nuvem! ❤️");
             } catch (err) {
-                console.error(err);
-                alert("Erro ao subir arquivo. Verifique se o Firebase está em modo teste.");
                 status.style.display = 'none';
+                alert("Erro! Configure o Firebase primeiro.");
             }
         });
 
-        // --- SINCRONIZAÇÃO EM TEMPO REAL ---
-        const q = query(collection(db, "midias"), orderBy("time", "desc"));
-        onSnapshot(q, (snapshot) => {
+        onSnapshot(query(collection(db, "midias"), orderBy("time", "desc")), (snap) => {
             const gallery = document.getElementById('media-gallery');
             gallery.innerHTML = '';
-            snapshot.forEach((doc) => {
+            snap.forEach(doc => {
                 const data = doc.data();
                 const div = document.createElement('div');
                 div.className = 'media-item';
+                div.setAttribute('data-aos', 'fade-up');
                 div.innerHTML = data.type === 'img' ? `<img src="${data.url}">` : `<video src="${data.url}" controls></video>`;
                 gallery.appendChild(div);
             });
         });
 
-        // Música (Ainda local ou você pode subir para o Firebase também)
+        // Música
         document.getElementById('music-input').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
-                const url = URL.createObjectURL(file);
-                const player = document.getElementById('audio-player');
-                player.src = url;
-                document.getElementById('player-container').style.display = 'block';
+                document.getElementById('audio-player').src = URL.createObjectURL(file);
+                document.getElementById('player-container').style.display = 'flex';
             }
         });
 
+        // Corações ao clicar
         document.addEventListener('click', (e) => {
             if(e.target.closest('#admin-panel') || e.target.tagName === 'BUTTON') return;
             const heart = document.createElement('div');
