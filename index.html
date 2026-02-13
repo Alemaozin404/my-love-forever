@@ -119,6 +119,8 @@
         .music-player { position: fixed; right: 20px; bottom: 20px; z-index: 100; }
         input[type="file"] { display: none; }
         
+        #upload-status { font-size: 0.8rem; color: var(--primary-pink); display: none; margin-top: 10px; }
+
         @keyframes floatUp { to { opacity: 0; transform: translateY(-80px) scale(1.5); } }
     </style>
 </head>
@@ -127,18 +129,19 @@
     <button class="toggle-admin" onclick="toggleAdmin()">⚙️</button>
 
     <div id="admin-panel">
-        <h3>Configurações</h3>
+        <h3>Configurações (Nuvem)</h3>
         <div class="admin-section">
             <h4>📸 Adicionar Foto/Vídeo</h4>
-            <label for="file-input" class="btn-upload">Escolher Arquivo</label>
+            <label for="file-input" class="btn-upload">Enviar para ela ver</label>
             <input type="file" id="file-input" accept="image/*,video/*">
+            <div id="upload-status">Subindo para a nuvem... ☁️</div>
         </div>
         <div class="admin-section">
             <h4>🎵 Música</h4>
             <label for="music-input" class="btn-upload">Escolher MP3</label>
             <input type="file" id="music-input" accept="audio/*">
         </div>
-        <button onclick="clearAllData()" style="color: red; background: none; border: none; font-size: 0.7rem; cursor: pointer;">Limpar tudo</button>
+        <p style="font-size: 0.6rem; color: #999;">Os arquivos agora são compartilhados via Firebase.</p>
     </div>
 
     <header>
@@ -159,10 +162,27 @@
         <audio id="audio-player" controls loop></audio>
     </div>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js";
+
+        // CONFIGURAÇÃO DO FIREBASE (Substitua pelos seus dados do console.firebase.google.com)
+        const firebaseConfig = {
+            apiKey: "COLE_AQUI",
+            authDomain: "COLE_AQUI",
+            projectId: "COLE_AQUI",
+            storageBucket: "COLE_AQUI",
+            messagingSenderId: "COLE_AQUI",
+            appId: "COLE_AQUI"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
         // --- DATA DE INÍCIO ---
         const startDate = new Date("2025-12-24T00:00:00").getTime();
-
         function updateTimer() {
             const now = new Date().getTime();
             const diff = now - startDate;
@@ -174,101 +194,65 @@
         }
         setInterval(updateTimer, 1000);
 
-        function toggleAdmin() { document.getElementById('admin-panel').classList.toggle('active'); }
+        window.toggleAdmin = () => { document.getElementById('admin-panel').classList.toggle('active'); };
 
-        // --- SISTEMA DE BANCO DE DADOS (INDEXED DB) ---
-        let db;
-        const request = indexedDB.open("AmorDatabase", 1);
+        // --- UPLOAD FIREBASE ---
+        const fileInput = document.getElementById('file-input');
+        const status = document.getElementById('upload-status');
 
-        request.onupgradeneeded = (e) => {
-            db = e.target.result;
-            db.createObjectStore("midias", { autoIncrement: true });
-            db.createObjectStore("config", { keyPath: "id" });
-        };
-
-        request.onsuccess = (e) => {
-            db = e.target.result;
-            loadMedia();
-            loadMusic();
-        };
-
-        // Salvar Foto/Vídeo
-        document.getElementById('file-input').addEventListener('change', function(e) {
+        fileInput.addEventListener('change', async (e) => {
             const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const data = { type: file.type.startsWith('image') ? 'img' : 'video', content: event.target.result };
-                    const transaction = db.transaction(["midias"], "readwrite");
-                    transaction.objectStore("midias").add(data);
-                    displayMedia(data.type, data.content);
-                };
-                reader.readAsDataURL(file);
+            if (!file) return;
+            status.style.display = 'block';
+
+            try {
+                const storageRef = ref(storage, 'fotos/' + Date.now() + "_" + file.name);
+                await uploadBytes(storageRef, file);
+                const url = await getDownloadURL(storageRef);
+
+                await addDoc(collection(db, "midias"), {
+                    url: url,
+                    type: file.type.startsWith('image') ? 'img' : 'video',
+                    time: Date.now()
+                });
+                status.style.display = 'none';
+            } catch (err) {
+                console.error(err);
+                alert("Erro ao subir arquivo. Verifique se o Firebase está em modo teste.");
+                status.style.display = 'none';
             }
         });
 
-        // Salvar Música
+        // --- SINCRONIZAÇÃO EM TEMPO REAL ---
+        const q = query(collection(db, "midias"), orderBy("time", "desc"));
+        onSnapshot(q, (snapshot) => {
+            const gallery = document.getElementById('media-gallery');
+            gallery.innerHTML = '';
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                const div = document.createElement('div');
+                div.className = 'media-item';
+                div.innerHTML = data.type === 'img' ? `<img src="${data.url}">` : `<video src="${data.url}" controls></video>`;
+                gallery.appendChild(div);
+            });
+        });
+
+        // Música (Ainda local ou você pode subir para o Firebase também)
         document.getElementById('music-input').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const musicData = { id: "bg-music", content: event.target.result };
-                    const transaction = db.transaction(["config"], "readwrite");
-                    transaction.objectStore("config").put(musicData);
-                    playMusic(event.target.result);
-                };
-                reader.readAsDataURL(file);
+                const url = URL.createObjectURL(file);
+                const player = document.getElementById('audio-player');
+                player.src = url;
+                document.getElementById('player-container').style.display = 'block';
             }
         });
 
-        function loadMedia() {
-            const transaction = db.transaction(["midias"], "readonly");
-            transaction.objectStore("midias").openCursor().onsuccess = (e) => {
-                const cursor = e.target.result;
-                if (cursor) {
-                    displayMedia(cursor.value.type, cursor.value.content);
-                    cursor.continue();
-                }
-            };
-        }
-
-        function loadMusic() {
-            const transaction = db.transaction(["config"], "readonly");
-            transaction.objectStore("config").get("bg-music").onsuccess = (e) => {
-                if (e.target.result) playMusic(e.target.result.content);
-            };
-        }
-
-        function playMusic(src) {
-            const player = document.getElementById('audio-player');
-            player.src = src;
-            document.getElementById('player-container').style.display = 'block';
-        }
-
-        function displayMedia(type, src) {
-            const div = document.createElement('div');
-            div.className = 'media-item';
-            div.innerHTML = type === 'img' ? `<img src="${src}">` : `<video src="${src}" controls></video>`;
-            document.getElementById('media-gallery').prepend(div);
-        }
-
-        function clearAllData() {
-            if(confirm("Deseja apagar todas as fotos e músicas?")) {
-                const tx1 = db.transaction(["midias"], "readwrite");
-                tx1.objectStore("midias").clear();
-                const tx2 = db.transaction(["config"], "readwrite");
-                tx2.objectStore("config").clear();
-                location.reload();
-            }
-        }
-
-        // Clique de corações
         document.addEventListener('click', (e) => {
             if(e.target.closest('#admin-panel') || e.target.tagName === 'BUTTON') return;
             const heart = document.createElement('div');
             heart.innerHTML = '❤️';
-            heart.style.cssText = `position:fixed; left:${e.clientX}px; top:${e.clientY}px; pointer-events:none; animation: floatUp 1s forwards;`;
+            heart.style.cssText = `position:fixed; left:${e.clientX}px; top:${e.clientY}px; pointer-events:none; animation: floatUp 1s forwards; z-index:9999;`;
             document.body.appendChild(heart);
             setTimeout(() => heart.remove(), 1000);
         });
