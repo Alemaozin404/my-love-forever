@@ -36,7 +36,6 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* FUNDO DE PARTÍCULAS */
         #particles-js {
             position: fixed;
             width: 100%;
@@ -47,7 +46,7 @@
             pointer-events: none;
         }
 
-        /* PAINEL DE CONTROLE MODERNO */
+        /* PAINEL DE CONTROLE */
         #admin-panel {
             position: fixed;
             left: -320px;
@@ -78,148 +77,104 @@
             z-index: 1001;
             box-shadow: 0 8px 20px rgba(201, 24, 74, 0.4);
             font-size: 1.5rem;
-            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-
-        .toggle-admin:hover { transform: scale(1.1) rotate(90deg); }
 
         /* HEADER E CONTAGEM */
-        header { 
-            position: relative;
-            z-index: 1;
-            padding: 100px 20px 40px; 
-            text-align: center;
-        }
-
+        header { padding: 80px 20px 40px; position: relative; z-index: 1; }
         h1 { 
             font-family: 'Dancing Script', cursive; 
-            font-size: clamp(2.5rem, 8vw, 5rem); 
+            font-size: clamp(2.5rem, 8vw, 4.5rem); 
             color: var(--dark-red);
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
             margin-bottom: 20px;
         }
 
         .counter-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            max-width: 600px;
+            gap: 10px;
+            max-width: 500px;
             margin: 0 auto;
-            z-index: 2;
         }
 
         .counter-item {
             background: var(--glass);
             backdrop-filter: blur(8px);
             border: 1px solid var(--glass-border);
-            padding: 15px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.05);
+            padding: 10px;
+            border-radius: 15px;
         }
 
-        .counter-number { display: block; font-size: 1.5rem; font-weight: 700; color: var(--dark-red); }
-        .counter-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
+        .counter-number { display: block; font-size: 1.2rem; font-weight: 700; color: var(--dark-red); }
+        .counter-label { font-size: 0.6rem; text-transform: uppercase; }
 
-        /* MENSAGEM PRINCIPAL */
-        .main-content { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
-
+        /* CARTA */
+        .main-content { max-width: 1000px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
         .love-letter {
             background: var(--white);
-            padding: 60px 40px;
-            border-radius: 40px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.08);
-            margin-bottom: 60px;
-            position: relative;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+            margin-bottom: 50px;
             line-height: 1.8;
-            font-size: 1.1rem;
+            text-align: justify;
         }
 
-        .love-letter::after {
-            content: '❤️';
-            position: absolute;
-            bottom: -25px;
-            right: 50px;
-            font-size: 3rem;
-        }
-
-        .letter-title {
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            font-size: 2.2rem;
-            margin-bottom: 25px;
-            color: var(--dark-red);
-        }
-
-        /* GALERIA POLAROID */
+        /* GALERIA */
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 35px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
         }
 
         .media-item {
             background: white;
-            padding: 15px 15px 45px 15px;
-            border-radius: 4px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
+            padding: 10px 10px 40px 10px;
+            border-radius: 2px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: 0.4s;
         }
 
-        .media-item:hover { transform: scale(1.05) translateY(-10px) rotate(1deg); }
+        .media-item:hover { transform: scale(1.03) rotate(1deg); }
 
         .media-item img, .media-item video {
             width: 100%;
-            height: 300px;
+            height: 280px;
             object-fit: cover;
-            border: 1px solid #eee;
         }
 
-        .media-item::before {
-            content: '';
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 30px;
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(2px);
-        }
-
-        /* PLAYER DE MÚSICA */
-        .music-card {
-            position: fixed;
-            right: 25px;
-            bottom: 25px;
-            background: var(--white);
-            padding: 10px 20px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            z-index: 1000;
-        }
-
-        /* AUXILIARES */
+        /* UPLOAD */
         .btn-upload {
             display: block;
             background: var(--primary-pink);
             color: white;
-            padding: 15px;
-            border-radius: 12px;
+            padding: 12px;
+            border-radius: 10px;
             text-align: center;
             cursor: pointer;
             font-weight: 600;
             margin-top: 10px;
-            transition: 0.3s;
         }
-        .btn-upload:hover { background: var(--dark-red); }
+
+        input[type="file"] { display: none; }
+        
+        .music-player {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background: white;
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
 
         @keyframes floatUp {
-            0% { transform: translateY(0) scale(1); opacity: 1; }
-            100% { transform: translateY(-100px) scale(2); opacity: 0; }
+            to { transform: translateY(-100px) scale(2); opacity: 0; }
         }
     </style>
 </head>
@@ -230,60 +185,45 @@
     <button class="toggle-admin" onclick="toggleAdmin()">⚙️</button>
 
     <div id="admin-panel">
-        <h2 style="font-family: 'Playfair Display'; margin-bottom: 20px;">Nossas Configurações</h2>
-        <div style="margin-bottom: 30px;">
-            <p style="font-size: 0.8rem; margin-bottom: 10px; font-weight: 600;">Adicionar à Nuvem:</p>
-            <label for="file-input" class="btn-upload">Upload de Memória</label>
+        <h2 style="font-family: 'Dancing Script';">Configurações</h2>
+        <div style="margin: 20px 0;">
+            <p style="font-size: 0.8rem; font-weight: 600;">Adicionar Foto/Vídeo:</p>
+            <label for="file-input" class="btn-upload">Subir Memória</label>
             <input type="file" id="file-input" accept="image/*,video/*">
-            <div id="upload-status" style="display:none; color: var(--primary-pink); font-size: 0.8rem; margin-top: 10px;">Conectando ao Firebase... ☁️</div>
+            <div id="upload-status" style="display:none; color: var(--primary-pink); font-size: 0.7rem; margin-top: 5px;">Enviando para o Firebase... ☁️</div>
         </div>
-        
-        <div style="margin-bottom: 30px;">
-            <p style="font-size: 0.8rem; margin-bottom: 10px; font-weight: 600;">Trilha Sonora:</p>
-            <label for="music-input" class="btn-upload" style="background: #666;">Trocar Música</label>
+        <div style="margin: 20px 0;">
+            <p style="font-size: 0.8rem; font-weight: 600;">Música:</p>
+            <label for="music-input" class="btn-upload" style="background: #555;">Trocar Áudio</label>
             <input type="file" id="music-input" accept="audio/*">
         </div>
+        <button onclick="toggleAdmin()" style="width: 100%; padding: 10px; border: none; border-radius: 5px; cursor: pointer;">Fechar</button>
     </div>
 
     <header data-aos="fade-down">
-        <h1>Feliz dia dos Namorados, princesa</h1>
+        <h1>Feliz dia dos Namorados minha princesa</h1>
         <div class="counter-grid">
-            <div class="counter-item">
-                <span class="counter-number" id="d-days">00</span>
-                <span class="counter-label">Dias</span>
-            </div>
-            <div class="counter-item">
-                <span class="counter-number" id="d-hours">00</span>
-                <span class="counter-label">Horas</span>
-            </div>
-            <div class="counter-item">
-                <span class="counter-number" id="d-mins">00</span>
-                <span class="counter-label">Min</span>
-            </div>
-            <div class="counter-item">
-                <span class="counter-number" id="d-secs">00</span>
-                <span class="counter-label">Seg</span>
-            </div>
+            <div class="counter-item"><span class="counter-number" id="d-days">00</span><span class="counter-label">Dias</span></div>
+            <div class="counter-item"><span class="counter-number" id="d-hours">00</span><span class="counter-label">Horas</span></div>
+            <div class="counter-item"><span class="counter-number" id="d-mins">00</span><span class="counter-label">Min</span></div>
+            <div class="counter-item"><span class="counter-number" id="d-secs">00</span><span class="counter-label">Seg</span></div>
         </div>
     </header>
 
     <div class="main-content">
         <section class="love-letter" data-aos="zoom-in">
-            <h2 class="letter-title">Para o Meu Único Amor</h2>
+            <h2 style="font-family: 'Dancing Script'; font-size: 2.5rem; margin-bottom: 20px; color: var(--dark-red);">Para o Meu Amor</h2>
             <p>
-                "Eu Te Amo, uma palavra dita como demonstração de carinho e afeto a quem amamos, mas para mim dizer <strong>Eu Te Amo</strong> a você é tudo pra mim. Dizer Eu Te Amo é dizer que nunca vou abandonar você e sempre estarei ao seu lado não importa a dificuldade. Eu Te Amo mais que tudo nesse mundo! 
-                <br><br>
-                Amar você não é só tudo que eu queria, mas é tudo que eu precisava. Você trouxe à minha vida felicidade, harmonia e paixão. Obrigado por tudo, meu amor. Você é e sempre será minha princesa, eu te amo eternamente. Feliz dia dos namorados!"
+                "Eu Te Amo, uma palavra dita como demonstração de carinho e afeto a quem amamos, mas para mim dizer <strong>Eu Te Amo</strong> a voce é tudo pra mim, dizer Eu Te Amo é dizer que nunca vou abandonar voce e sempre estarei ao seu lado nao importa a dificuldade, Eu Te Amo mais que tudo nesse mundo, amar voce é so nao tudo que queria mas é tudo que eu precisava, você trouxe a minha vida felicidade voce trouxe armonia e paixão, obrigado por tudo amor, você e sempre sera minha princesa eu te amo eternamente. Feliz dia dos namorados!"
             </p>
         </section>
 
-        <h2 style="margin-bottom: 40px; font-family: 'Playfair Display'; font-size: 2rem;" data-aos="fade-up">Nossa Galeria Infinita</h2>
-        <div class="gallery" id="media-gallery">
-            </div>
+        <h2 style="margin-bottom: 30px; font-family: 'Playfair Display';" data-aos="fade-up">Nossas Lembranças</h2>
+        <div class="gallery" id="media-gallery"></div>
     </div>
 
-    <div class="music-card" id="player-container" style="display: none;">
-        <span style="font-size: 1.2rem;">🎵</span>
+    <div class="music-player" id="player-container" style="display: none;">
+        <span style="margin-right: 10px;">🎵</span>
         <audio id="audio-player" controls loop style="height: 30px;"></audio>
     </div>
 
@@ -295,36 +235,35 @@
         import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js";
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyAZstxT6pXGa0i6CnZJn-y0maHVmPxKR_0",
-  authDomain: "my-love-forever-6fb8a.firebaseapp.com",
-  databaseURL: "https://my-love-forever-6fb8a-default-rtdb.firebaseio.com",
-  projectId: "my-love-forever-6fb8a",
-  storageBucket: "my-love-forever-6fb8a.firebasestorage.app",
-  messagingSenderId: "842058467429",
-  appId: "1:842058467429:web:b5150339deb9114e7f9e8c"
-};
+        // SUA CONFIGURAÇÃO QUE VOCÊ ENVIOU
+        const firebaseConfig = {
+            apiKey: "AIzaSyAZstxT6pXGa0i6CnZJn-y0maHVmPxKR_0",
+            authDomain: "my-love-forever-6fb8a.firebaseapp.com",
+            databaseURL: "https://my-love-forever-6fb8a-default-rtdb.firebaseio.com",
+            projectId: "my-love-forever-6fb8a",
+            storageBucket: "my-love-forever-6fb8a.firebasestorage.app",
+            messagingSenderId: "842058467429",
+            appId: "1:842058467429:web:b5150339deb9114e7f9e8c"
+        };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const storage = getStorage(app);
 
-        // --- INICIALIZAÇÕES ---
+        // Inicializar Efeitos
         AOS.init({ duration: 1000, once: true });
-        
         particlesJS("particles-js", {
             "particles": {
                 "number": { "value": 15 },
                 "shape": { "type": "heart" },
                 "color": { "value": "#ff4d6d" },
                 "opacity": { "value": 0.3 },
-                "size": { "value": 15 },
-                "move": { "enable": true, "speed": 2, "direction": "top" }
+                "size": { "value": 12 },
+                "move": { "enable": true, "speed": 1.5, "direction": "top" }
             }
         });
 
-        // --- CONTADOR ---
+        // Contador
         const startDate = new Date("2025-12-24T00:00:00").getTime();
         setInterval(() => {
             const now = new Date().getTime();
@@ -337,7 +276,7 @@ const firebaseConfig = {
 
         window.toggleAdmin = () => document.getElementById('admin-panel').classList.toggle('active');
 
-        // --- LÓGICA FIREBASE ---
+        // Lógica de Upload para Firebase
         const fileInput = document.getElementById('file-input');
         const status = document.getElementById('upload-status');
 
@@ -345,19 +284,26 @@ const firebaseConfig = {
             const file = e.target.files[0];
             if (!file) return;
             status.style.display = 'block';
+
             try {
                 const storageRef = ref(storage, 'galeria/' + Date.now() + "_" + file.name);
                 await uploadBytes(storageRef, file);
                 const url = await getDownloadURL(storageRef);
-                await addDoc(collection(db, "midias"), { url, type: file.type.startsWith('image') ? 'img' : 'video', time: Date.now() });
+                await addDoc(collection(db, "midias"), {
+                    url: url,
+                    type: file.type.startsWith('image') ? 'img' : 'video',
+                    time: Date.now()
+                });
                 status.style.display = 'none';
-                alert("Memória salva na nuvem! ❤️");
+                alert("Memória guardada na nuvem com sucesso! ❤️");
             } catch (err) {
+                console.error(err);
+                alert("Erro ao subir! Verifique se as regras do Storage/Firestore estão em 'modo teste'.");
                 status.style.display = 'none';
-                alert("Erro! Configure o Firebase primeiro.");
             }
         });
 
+        // Sincronização em Tempo Real
         onSnapshot(query(collection(db, "midias"), orderBy("time", "desc")), (snap) => {
             const gallery = document.getElementById('media-gallery');
             gallery.innerHTML = '';
@@ -375,12 +321,13 @@ const firebaseConfig = {
         document.getElementById('music-input').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
-                document.getElementById('audio-player').src = URL.createObjectURL(file);
+                const player = document.getElementById('audio-player');
+                player.src = URL.createObjectURL(file);
                 document.getElementById('player-container').style.display = 'flex';
             }
         });
 
-        // Corações ao clicar
+        // Corações no clique
         document.addEventListener('click', (e) => {
             if(e.target.closest('#admin-panel') || e.target.tagName === 'BUTTON') return;
             const heart = document.createElement('div');
@@ -392,4 +339,3 @@ const firebaseConfig = {
     </script>
 </body>
 </html>
-
